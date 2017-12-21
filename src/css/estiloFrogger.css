@@ -1203,49 +1203,52 @@
 html,
 body,
 main {
+  margin: 0;
+  padding: 0;
   height: 100%;
+  border: none;
 }
 
-/* line 9, src/sass/geral/_reset.scss */
+/* line 14, src/sass/geral/_reset.scss */
 a {
   color: inherit;
 }
 
-/* line 11, src/sass/geral/_reset.scss */
+/* line 16, src/sass/geral/_reset.scss */
 a:hover, a:active, a:focus, a:focus:hover {
   transition-duration: 0.1s;
 }
 
-/* line 15, src/sass/geral/_reset.scss */
+/* line 20, src/sass/geral/_reset.scss */
 a:hover {
   text-decoration: inherit;
 }
 
-/* line 18, src/sass/geral/_reset.scss */
+/* line 23, src/sass/geral/_reset.scss */
 img, iframe, object, video {
   max-width: 100%;
   width: auto;
   height: auto;
 }
 
-/* line 25, src/sass/geral/_reset.scss */
+/* line 30, src/sass/geral/_reset.scss */
 form:after, form:before {
   display: table;
   content: " ";
 }
 
-/* line 30, src/sass/geral/_reset.scss */
+/* line 35, src/sass/geral/_reset.scss */
 form:after {
   clear: both;
 }
 
-/* line 33, src/sass/geral/_reset.scss */
+/* line 38, src/sass/geral/_reset.scss */
 textarea {
   max-width: 100%;
   width: 100%;
 }
 
-/* line 38, src/sass/geral/_reset.scss */
+/* line 43, src/sass/geral/_reset.scss */
 b {
   font-family: 'robotobold';
 }
