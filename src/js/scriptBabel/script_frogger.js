@@ -39,7 +39,7 @@ class Lines extends Game{
     }
 }
 
-class Enemy extends Game{
+class Enemy{
     constructor(type){
         this.type = type;
     }
