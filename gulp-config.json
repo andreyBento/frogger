@@ -1,0 +1,30 @@
+{
+    "srcPath":"src",
+    "srcDist":"dist",
+    "srcWatch":"src/**/*",
+
+    "favIcoSrcPath":"src/favicon/*",
+    "favIcoSrcDist":"dist/favicon",
+    "imgSrcPath":"src/img/*",
+    "imgSrcDist":"dist/img",
+    "fontSrcPath":"src/fonts/*",
+
+    "imgSrcPath":"src/img/**/*",
+    "imgSrcDist":"dist/img",
+
+    "fontSrcPath":"src/fonts/**/*",
+    "fontSrcDist":"dist/fonts",
+
+    "cssSrcPath":"src/css/*.css",
+
+    "sassSrc":"src/sass/**/*.scss",
+    "sassDist":"src/css/",
+
+    "jsBabelSrc":"src/js/scriptBabel/*.js",
+    "jsBabelDist":"src/js/",
+
+    "htmlSrcPath":"src/*.html",
+    "htmlSrcDist":"dist/*.html",
+
+    "tasksPath":"./tasks"
+}
