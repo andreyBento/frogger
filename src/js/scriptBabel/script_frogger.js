@@ -3,15 +3,26 @@
  * Desenvolvido por Andrey em: 21/12/2017
  */
 
+
 class Game {
     constructor(){
         this.actualStage = 1;
         this.stage();
     }
     stage(){
+        this.lines();
+    }
+    lines(quantity){
         switch(this.actualStage){
             case 1:
-                this.lines(4);
+                let begin = new Line('sidewalk'),
+                    line1 = new Line('street'),
+                    line2 = new Line('street'),
+                    end = new Line('sidewalk');
+                document.getElementById('mainGame').appendChild(begin);
+                document.getElementById('mainGame').appendChild(line1);
+                document.getElementById('mainGame').appendChild(line2);
+                document.getElementById('mainGame').appendChild(end);
                 break;
             case 2:
                 this.lines(8);
@@ -23,65 +34,155 @@ class Game {
                 this.lines(16);
         }
     }
-    lines(quantity){
-
-    }
 }
 
-class Lines extends Game{
+class Line{
     constructor(type){
         this.type = type;
-        this.generate();
+        return this.generate();
     }
 
     generate(){
         switch(this.type){
             case 'street':
-                this.templateStreet();
+                return this.templateStreet();
                 break;
             case 'river':
-                this.templateRiver();
+                return this.templateRiver();
                 break;
-            case 'pavement':
-                this.templatePavement();
+            case 'sidewalk':
+                return this.templateSidewalk();
                 break;
             case 'grass':
-                this.templateGrass();
+                return this.templateGrass();
         }
     }
 
     templateStreet(){
-        const streetDiv = document.createElement('div');
+        const streetDiv = document.createElement('div'),
+              enemiesArray = ['basic', 'fast', 'slow'],
+              directionArray = ['right', 'left'],
+              randomEnemy = Math.floor(Math.random() * (enemiesArray.length - 0)) + 0,
+              randomDirection = Math.floor(Math.random() * (directionArray.length - 0)) + 0;
 
         streetDiv.setAttribute('class', 'line street');
-        streetDiv.appendChild(new Enemy('car'));
+        new Enemy(enemiesArray[randomEnemy], directionArray[randomDirection], streetDiv);
+        setInterval(function(){
+            new Enemy(enemiesArray[randomEnemy], directionArray[randomDirection], streetDiv);
+        }, 3500);
+
+        return streetDiv;
     }
 
     templateRiver(){
         const riverDiv = document.createElement('div');
 
         riverDiv.setAttribute('class', 'line river');
-        riverDiv.appendChild(new Platform());
+
+        return riverDiv;
     }
 
-    templatePavement(){
-        const pavementDiv = document.createElement('div');
+    templateSidewalk(){
+        const sidewalkDiv = document.createElement('div');
 
-        pavementDiv.setAttribute('class', 'line pavement');
+        sidewalkDiv.setAttribute('class', 'line sidewalk');
+
+        return sidewalkDiv;
     }
 
     templateGrass(){
         const grassDiv = document.createElement('div');
 
         grassDiv.setAttribute('class', 'line grass');
+
+        return grassDiv;
     }
 }
 
 class Enemy{
-    constructor(type){
+    constructor(type, direction, father){
         this.type = type;
-        this.direction = 0;
-        this.speed = 0;
+        this.direction = direction;
+        this.father = father;
+        this.born();
+    }
+
+    template(){
+        const enemyImg = document.createElement('img');
+
+        enemyImg.setAttribute('src', 'img/enemy_' + this.type + '.png');
+        enemyImg.setAttribute('class', 'enemy ' + this.direction);
+
+        return enemyImg;
+    }
+
+    born(){
+        let enemyElement = this.template();
+        this.father.appendChild(enemyElement);
+        this.move(enemyElement);
+    }
+
+    move(element){
+
+        let left = 0,
+            right = 0;
+
+        if(this.type === 'fast'){
+            if(this.direction === 'right'){
+                setInterval(function(){
+                    right += 45;
+                    element.style.right = right + 'px';
+                    if(right > window.innerWidth + 150){
+                        element.remove();
+                    }
+                }, 100);
+            } else {
+                setInterval(function(){
+                    left += 45;
+                    element.style.left = left + 'px';
+                    if(left > window.innerWidth + 150){
+                        element.remove();
+                    }
+                }, 100);
+            }
+        } else if(this.type === 'slow'){
+            if(this.direction === 'right'){
+                setInterval(function(){
+                    right += 15;
+                    element.style.right = right + 'px';
+                    if(right > window.innerWidth + 150){
+                        element.remove();
+                    }
+                }, 100);
+            } else {
+                setInterval(function(){
+                    left += 15;
+                    element.style.left = left + 'px';
+                    if(left > window.innerWidth + 150){
+                        element.remove();
+                    }
+                }, 100);
+            }
+        } else {
+            if(this.direction === 'right'){
+                setInterval(function(){
+                    right += 30;
+                    element.style.right = right + 'px';
+                    if(right > window.innerWidth + 150){
+                        element.remove();
+                    }
+                }, 100);
+            } else {
+                setInterval(function(){
+                    left += 30;
+                    element.style.left = left + 'px';
+                    if(left > window.innerWidth + 150){
+                        element.remove();
+                    }
+                }, 100);
+            }
+        }
+
     }
 }
 
@@ -91,3 +192,22 @@ class Platform{
         this.speed = 0;
     }
 }
+
+class Character {
+    constructor(){
+        this.born();
+    }
+
+    template(){
+        const charDiv = document.createElement('div');
+
+        charDiv.setAttribute('class', 'char');
+
+        return charDiv;
+    }
+
+    born(){}
+}
+
+
+new Game();
