@@ -21,20 +21,25 @@ var Game = function () {
         key: 'stage',
         value: function stage() {
             this.lines();
+            new Character();
         }
     }, {
         key: 'lines',
-        value: function lines(quantity) {
+        value: function lines() {
             switch (this.actualStage) {
                 case 1:
                     var begin = new Line('sidewalk'),
                         line1 = new Line('street'),
                         line2 = new Line('street'),
                         end = new Line('sidewalk');
-                    document.getElementById('mainGame').appendChild(begin);
-                    document.getElementById('mainGame').appendChild(line1);
-                    document.getElementById('mainGame').appendChild(line2);
+
+                    begin.setAttribute('id', 'begin');
+                    end.setAttribute('id', 'end');
+
                     document.getElementById('mainGame').appendChild(end);
+                    document.getElementById('mainGame').appendChild(line2);
+                    document.getElementById('mainGame').appendChild(line1);
+                    document.getElementById('mainGame').appendChild(begin);
                     break;
                 case 2:
                     this.lines(8);
@@ -244,8 +249,27 @@ var Character = function () {
             return charDiv;
         }
     }, {
+        key: 'move',
+        value: function move(char) {
+            document.onkeydown = function () {
+                if (event.keyCode == 38) {
+                    console.log('cima');
+                } else if (event.keyCode == 40) {
+                    console.log('baixo');
+                } else if (event.keyCode == 39) {
+                    console.log('esquerda');
+                } else if (event.keyCode == 37) {
+                    console.log('direita');
+                }
+            };
+        }
+    }, {
         key: 'born',
-        value: function born() {}
+        value: function born() {
+            var char = this.template();
+            document.getElementById('begin').appendChild(char);
+            this.move(char);
+        }
     }]);
 
     return Character;
