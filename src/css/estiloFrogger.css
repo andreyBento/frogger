@@ -1264,48 +1264,66 @@ body {
 }
 
 /* line 12, src/sass/geral/_geral.scss */
+.mainGame {
+  position: relative;
+}
+
+/* line 16, src/sass/geral/_geral.scss */
 .line {
   position: relative;
   overflow: hidden;
   height: 70px;
 }
 
-/* line 17, src/sass/geral/_geral.scss */
+/* line 21, src/sass/geral/_geral.scss */
 .line.street {
   background: url("../img/street_background.jpg") no-repeat center;
   background-size: cover;
 }
 
-/* line 21, src/sass/geral/_geral.scss */
+/* line 25, src/sass/geral/_geral.scss */
 .line.sidewalk {
   background-color: #eeeeee;
 }
 
-/* line 24, src/sass/geral/_geral.scss */
+/* line 28, src/sass/geral/_geral.scss */
 .line.river {
   background-color: aqua;
 }
 
-/* line 29, src/sass/geral/_geral.scss */
-.enemy {
-  position: absolute;
-  transition: 0.6s;
-}
-
-/* line 32, src/sass/geral/_geral.scss */
-.enemy.right {
-  right: -150px;
-  transform: scaleX(-1);
+/* line 31, src/sass/geral/_geral.scss */
+.line.grass {
+  background-color: greenyellow;
 }
 
 /* line 36, src/sass/geral/_geral.scss */
-.enemy.left {
+.enemy,
+.boat {
+  position: absolute;
+  top: 50%;
+  transform: translateY(-50%);
+  transition: 0.6s;
+}
+
+/* line 42, src/sass/geral/_geral.scss */
+.enemy.right,
+.boat.right {
+  right: -150px;
+  transform: scaleX(-1) translateY(-50%);
+}
+
+/* line 46, src/sass/geral/_geral.scss */
+.enemy.left,
+.boat.left {
   left: -150px;
 }
 
-/* line 41, src/sass/geral/_geral.scss */
+/* line 51, src/sass/geral/_geral.scss */
 .char {
   position: absolute;
+  bottom: 10px;
+  left: calc(50% - 50px);
+  z-index: 2;
   width: 50px;
   height: 50px;
   background: blue;

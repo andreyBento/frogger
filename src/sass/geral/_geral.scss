@@ -9,6 +9,10 @@ body {
   background-color: #ffffff;
 }
 
+.mainGame{
+  position: relative;
+}
+
 .line{
   position: relative;
   overflow: hidden;
@@ -24,14 +28,20 @@ body {
   &.river{
     background-color: aqua;
   }
+  &.grass{
+    background-color: greenyellow;
+  }
 }
 
-.enemy{
+.enemy,
+.boat{
   position: absolute;
+  top: 50%;
+  transform: translateY(-50%);
   transition: 0.6s;
   &.right{
     right: -150px;
-    transform: scaleX(-1);
+    transform: scaleX(-1) translateY(-50%);
   }
   &.left{
     left: -150px;
@@ -40,6 +50,9 @@ body {
 
 .char{
   position: absolute;
+  bottom: 10px;
+  left: calc(50% - 50px);
+  z-index: 2;
   width: 50px;
   height: 50px;
   background: blue;
