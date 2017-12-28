@@ -1288,12 +1288,12 @@ body {
 
 /* line 28, src/sass/geral/_geral.scss */
 .line.river {
-  background-color: aqua;
+  background-color: #7ED7E5;
 }
 
 /* line 31, src/sass/geral/_geral.scss */
 .line.grass {
-  background-color: greenyellow;
+  background-color: #ACC754;
 }
 
 /* line 36, src/sass/geral/_geral.scss */
@@ -1318,7 +1318,17 @@ body {
   left: -150px;
 }
 
-/* line 51, src/sass/geral/_geral.scss */
+/* line 52, src/sass/geral/_geral.scss */
+.boat.right {
+  right: -250px;
+}
+
+/* line 55, src/sass/geral/_geral.scss */
+.boat.left {
+  left: -250px;
+}
+
+/* line 60, src/sass/geral/_geral.scss */
 .char {
   position: absolute;
   bottom: 10px;

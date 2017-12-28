@@ -26,10 +26,10 @@ body {
     background-color: #eeeeee;
   }
   &.river{
-    background-color: aqua;
+    background-color: #7ED7E5;
   }
   &.grass{
-    background-color: greenyellow;
+    background-color: #ACC754;
   }
 }
 
@@ -45,6 +45,15 @@ body {
   }
   &.left{
     left: -150px;
+  }
+}
+
+.boat{
+  &.right{
+    right: -250px;
+  }
+  &.left{
+    left: -250px;
   }
 }
 
