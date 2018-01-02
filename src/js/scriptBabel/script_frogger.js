@@ -7,67 +7,57 @@
 class Game {
     constructor(){
         this.actualStage = 1;
+        this.character = null;
         this.stage();
     }
     stage(){
+        this.character = new Character();
         this.lines();
-        new Character();
     }
     lines(){
-        switch(this.actualStage){
-            case 1:
-                let begin = new Line('sidewalk'),
-                    line1 = new Line('street'),
-                    line2 = new Line('street'),
-                    line3 = new Line('street'),
-                    line4 = new Line('street'),
-                    line5 = new Line('river'),
-                    line6 = new Line('river'),
-                    line7 = new Line('river'),
-                    line8 = new Line('river'),
-                    line9 = new Line('street'),
-                    line10 = new Line('street'),
-                    line11 = new Line('street'),
-                    line12 = new Line('street'),
-                    safe1 = new Line('grass'),
-                    safe2 = new Line('grass'),
-                    end = new Line('sidewalk');
+        let line1 = new Line('sidewalk', 1),
+            line2 = new Line('street', 2),
+            line3 = new Line('street', 3),
+            line4 = new Line('street', 4),
+            line5 = new Line('street', 5),
+            line6 = new Line('grass', 6),
+            line7 = new Line('river', 7),
+            line8 = new Line('river', 8),
+            line9 = new Line('river', 9),
+            line10 = new Line('river', 10),
+            line11 = new Line('grass', 11),
+            line12 = new Line('street', 12),
+            line13 = new Line('street', 13),
+            line14 = new Line('street', 14),
+            line15 = new Line('street', 15),
+            line16 = new Line('sidewalk', 16);
 
-                begin.setAttribute('id', 'begin');
-                end.setAttribute('id', 'end');
+        line1.setAttribute('id', 'begin');
+        line16.setAttribute('id', 'end');
 
-                document.getElementById('mainGame').appendChild(end);
-                document.getElementById('mainGame').appendChild(line12);
-                document.getElementById('mainGame').appendChild(line11);
-                document.getElementById('mainGame').appendChild(line10);
-                document.getElementById('mainGame').appendChild(line9);
-                document.getElementById('mainGame').appendChild(safe2);
-                document.getElementById('mainGame').appendChild(line8);
-                document.getElementById('mainGame').appendChild(line7);
-                document.getElementById('mainGame').appendChild(line6);
-                document.getElementById('mainGame').appendChild(line5);
-                document.getElementById('mainGame').appendChild(safe1);
-                document.getElementById('mainGame').appendChild(line4);
-                document.getElementById('mainGame').appendChild(line3);
-                document.getElementById('mainGame').appendChild(line2);
-                document.getElementById('mainGame').appendChild(line1);
-                document.getElementById('mainGame').appendChild(begin);
-                break;
-            case 2:
-                this.lines(8);
-                break;
-            case 3:
-                this.lines(12);
-                break;
-            case 4 :
-                this.lines(16);
-        }
+        document.getElementById('mainGame').appendChild(line16);
+        document.getElementById('mainGame').appendChild(line15);
+        document.getElementById('mainGame').appendChild(line14);
+        document.getElementById('mainGame').appendChild(line13);
+        document.getElementById('mainGame').appendChild(line12);
+        document.getElementById('mainGame').appendChild(line11);
+        document.getElementById('mainGame').appendChild(line10);
+        document.getElementById('mainGame').appendChild(line9);
+        document.getElementById('mainGame').appendChild(line8);
+        document.getElementById('mainGame').appendChild(line7);
+        document.getElementById('mainGame').appendChild(line6);
+        document.getElementById('mainGame').appendChild(line5);
+        document.getElementById('mainGame').appendChild(line4);
+        document.getElementById('mainGame').appendChild(line3);
+        document.getElementById('mainGame').appendChild(line2);
+        document.getElementById('mainGame').appendChild(line1);
     }
 }
 
 class Line{
-    constructor(type){
+    constructor(type, number){
         this.type = type;
+        this.number = number;
         return this.generate();
     }
 
@@ -95,9 +85,9 @@ class Line{
             randomDirection = Math.floor(Math.random() * (directionArray.length - 0)) + 0;
 
         streetDiv.setAttribute('class', 'line street');
-        new Enemy(enemiesArray[randomEnemy], directionArray[randomDirection], streetDiv);
-        setInterval(function(){
-            new Enemy(enemiesArray[randomEnemy], directionArray[randomDirection], streetDiv);
+        new Enemy(enemiesArray[randomEnemy], directionArray[randomDirection], streetDiv, this);
+        setInterval(() => {
+            new Enemy(enemiesArray[randomEnemy], directionArray[randomDirection], streetDiv, this);
         }, 2000);
 
         return streetDiv;
@@ -111,9 +101,9 @@ class Line{
             randomDirection = Math.floor(Math.random() * (directionArray.length - 0)) + 0;
 
         riverDiv.setAttribute('class', 'line river');
-        new Enemy(enemiesArray[randomEnemy], directionArray[randomDirection], riverDiv);
-        setInterval(function(){
-            new Enemy(enemiesArray[randomEnemy], directionArray[randomDirection], riverDiv);
+        new Enemy(enemiesArray[randomEnemy], directionArray[randomDirection], riverDiv, this);
+        setInterval(() => {
+            new Enemy(enemiesArray[randomEnemy], directionArray[randomDirection], riverDiv, this);
         }, 2000);
 
         return riverDiv;
@@ -137,99 +127,123 @@ class Line{
 }
 
 class Enemy{
-    constructor(type, direction, father){
-        this.type = type;
-        this.direction = direction;
+    constructor(enemyType, enemyDirection, enemyDiv, father){
+        this.enemyType = enemyType;
+        this.enemyDirection = enemyDirection;
+        this.enemyDiv = enemyDiv;
         this.father = father;
+        this.enemyHtml = this.template();
+        this.left = 0;
+        this.right = 0;
         this.born();
     }
 
     template(){
         const enemyImg = document.createElement('img');
 
-        if(this.father.classList[1] == 'street'){
-            enemyImg.setAttribute('src', 'img/enemy_' + this.type + '.png');
-            enemyImg.setAttribute('class', 'enemy ' + this.direction);
-        } else if(this.father.classList[1] == 'river'){
-            enemyImg.setAttribute('src', 'img/boat_' + this.type + '.png');
-            enemyImg.setAttribute('class', 'boat ' + this.direction);
+        if(this.enemyDiv.classList[1] == 'street'){
+            enemyImg.setAttribute('src', 'img/enemy_' + this.enemyType + '.png');
+            enemyImg.setAttribute('class', 'enemy ' + this.enemyDirection);
+        } else if(this.enemyDiv.classList[1] == 'river'){
+            enemyImg.setAttribute('src', 'img/boat_' + this.enemyType + '.png');
+            enemyImg.setAttribute('class', 'boat ' + this.enemyDirection);
         }
 
         return enemyImg;
     }
 
     born(){
-        let enemyElement = this.template();
-        this.father.appendChild(enemyElement);
-        this.move(enemyElement);
+        this.enemyDiv.appendChild(this.enemyHtml);
+        this.move();
     }
 
-    move(element){
+    move(){
 
-        let left = 0,
-            right = 0;
+        if(this.enemyDirection === 'right'){
+            this.movement = setInterval(() => {
 
-        if(this.direction === 'right'){
-            setInterval(() => {
-
-                if(this.father.classList[1] == 'street'){
-                    if(this.type === 'fast'){
-                        right += 100;
-                    } else if(this.type === 'slow'){
-                        right += 40;
+                if(this.enemyDiv.classList[1] == 'street'){
+                    if(this.enemyType === 'fast'){
+                        this.right += 30;
+                    } else if(this.enemyType === 'slow'){
+                        this.right += 7;
                     } else {
-                        right += 70;
+                        this.right += 15;
                     }
-                } else if(this.father.classList[1] == 'river'){
-                    if(this.type === 'fast'){
-                        right += 60;
-                    } else if(this.type === 'slow'){
-                        right += 15;
+                } else if(this.enemyDiv.classList[1] == 'river'){
+                    if(this.enemyType === 'fast'){
+                        this.right += 15;
+                    } else if(this.enemyType === 'slow'){
+                        this.right += 4;
                     } else {
-                        right += 30;
+                        this.right += 7;
                     }
                 }
 
-                element.style.right = right + 'px';
-
-                if(right > window.innerWidth + 500){
-                    element.remove();
+                this.enemyHtml.style.right = this.right + 'px';
+                this.left = this.right + this.enemyHtml.getBoundingClientRect().width;
+                if(this.father.number == game.character.line){
+                    if(this.left >= game.character.left && this.left <= game.character.right){
+                        console.log('seio');
+                        game.character.death();
+                    }
                 }
-            }, 100);
+
+                if(this.right > window.innerWidth + 500){
+                    this.destroy();
+                }
+            }, 30);
         } else {
-            setInterval(() => {
 
-                if(this.father.classList[1] == 'street'){
-                    if(this.type === 'fast'){
-                        left += 100;
-                    } else if(this.type === 'slow'){
-                        left += 40;
+            this.movement = setInterval(() => {
+
+                if(this.enemyDiv.classList[1] == 'street'){
+                    if(this.enemyType === 'fast'){
+                        this.left += 30;
+                    } else if(this.enemyType === 'slow'){
+                        this.left += 7;
                     } else {
-                        left += 70;
+                        this.left += 15;
                     }
-                } else if(this.father.classList[1] == 'river'){
-                    if(this.type === 'fast'){
-                        left += 60;
-                    } else if(this.type === 'slow'){
-                        left += 15;
+                } else if(this.enemyDiv.classList[1] == 'river'){
+                    if(this.enemyType === 'fast'){
+                        this.left += 15;
+                    } else if(this.enemyType === 'slow'){
+                        this.left += 4;
                     } else {
-                        left += 30;
+                        this.left += 7;
                     }
                 }
 
-                element.style.left = left + 'px';
-
-                if(left > window.innerWidth + 500){
-                    element.remove();
+                this.enemyHtml.style.left = this.left + 'px';
+                this.right = this.left + this.enemyHtml.getBoundingClientRect().width;
+                if(this.father.number == game.character.line){
+                    if(this.right >= game.character.left && this.right <= game.character.right){
+                        console.log('seio');
+                        game.character.death();
+                    }
                 }
-            }, 100);
+
+                if(this.left > window.innerWidth + 500){
+                    this.destroy();
+                }
+            }, 30);
         }
 
+    }
+
+    destroy(){
+        clearInterval(this.movement);
+        this.enemyHtml.remove();
     }
 }
 
 class Character {
     constructor(){
+        this.left = null;
+        this.right = null;
+        this.line = 1;
+        this.char = this.template();
         this.born();
     }
 
@@ -242,41 +256,49 @@ class Character {
         return charDiv;
     }
 
-    move(char){
-        let charBottom = 10;
-        let charPosition = char.getBoundingClientRect();
-        let charLeft = charPosition.left;
-        document.onkeydown = function(){
+    move(){
+        let charBottom = 10,
+            charPosition = this.char.getBoundingClientRect(),
+            charLeft = charPosition.left;
+        document.onkeydown = () => {
             if(event.keyCode == 87){
                 if(!((window.innerHeight - 80) == charBottom || (window.innerHeight - 80) <= charBottom)){
                     charBottom += 70;
                 }
-                char.style.bottom = charBottom + 'px';
+                this.char.style.bottom = charBottom + 'px';
+                game.character.line++;
             } else if(event.keyCode == 83) {
                 if(!(charBottom == 10 || charBottom <= 10)){
                     charBottom -= 70;
                 }
-                char.style.bottom = charBottom + 'px';
+                this.char.style.bottom = charBottom + 'px';
+                game.character.line--;
             } else if(event.keyCode == 68) {
                 if(!((window.innerWidth - 80) == charLeft || (window.innerWidth - 80) <= charLeft)){
                     charLeft += 70;
                 }
-                char.style.left = charLeft + 'px';
+                this.char.style.left = charLeft + 'px';
             } else if(event.keyCode == 65) {
                 if(!(charLeft == 30 || charLeft <= 30)){
                     charLeft -= 70;
                 }
-                char.style.left = charLeft + 'px';
+                this.char.style.left = charLeft + 'px';
             }
+            this.left = Math.floor(this.char.getBoundingClientRect().left);
+            this.right = Math.floor(this.char.getBoundingClientRect().right);
         }
     }
 
     born(){
-        let char = this.template();
-        document.getElementById('mainGame').appendChild(char);
-        this.move(char);
+        document.getElementById('mainGame').appendChild(this.char);
+        this.move();
+    }
+
+    death(){
+        this.char.remove();
+        game.character = new Character();
     }
 }
 
 
-new Game();
+let game = new Game();

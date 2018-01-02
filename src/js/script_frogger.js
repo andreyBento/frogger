@@ -14,66 +14,55 @@ var Game = function () {
         _classCallCheck(this, Game);
 
         this.actualStage = 1;
+        this.character = null;
         this.stage();
     }
 
     _createClass(Game, [{
         key: 'stage',
         value: function stage() {
+            this.character = new Character();
             this.lines();
-            new Character();
         }
     }, {
         key: 'lines',
         value: function lines() {
-            switch (this.actualStage) {
-                case 1:
-                    var begin = new Line('sidewalk'),
-                        line1 = new Line('street'),
-                        line2 = new Line('street'),
-                        line3 = new Line('street'),
-                        line4 = new Line('street'),
-                        line5 = new Line('river'),
-                        line6 = new Line('river'),
-                        line7 = new Line('river'),
-                        line8 = new Line('river'),
-                        line9 = new Line('street'),
-                        line10 = new Line('street'),
-                        line11 = new Line('street'),
-                        line12 = new Line('street'),
-                        safe1 = new Line('grass'),
-                        safe2 = new Line('grass'),
-                        end = new Line('sidewalk');
+            var line1 = new Line('sidewalk', 1),
+                line2 = new Line('street', 2),
+                line3 = new Line('street', 3),
+                line4 = new Line('street', 4),
+                line5 = new Line('street', 5),
+                line6 = new Line('grass', 6),
+                line7 = new Line('river', 7),
+                line8 = new Line('river', 8),
+                line9 = new Line('river', 9),
+                line10 = new Line('river', 10),
+                line11 = new Line('grass', 11),
+                line12 = new Line('street', 12),
+                line13 = new Line('street', 13),
+                line14 = new Line('street', 14),
+                line15 = new Line('street', 15),
+                line16 = new Line('sidewalk', 16);
 
-                    begin.setAttribute('id', 'begin');
-                    end.setAttribute('id', 'end');
+            line1.setAttribute('id', 'begin');
+            line16.setAttribute('id', 'end');
 
-                    document.getElementById('mainGame').appendChild(end);
-                    document.getElementById('mainGame').appendChild(line12);
-                    document.getElementById('mainGame').appendChild(line11);
-                    document.getElementById('mainGame').appendChild(line10);
-                    document.getElementById('mainGame').appendChild(line9);
-                    document.getElementById('mainGame').appendChild(safe2);
-                    document.getElementById('mainGame').appendChild(line8);
-                    document.getElementById('mainGame').appendChild(line7);
-                    document.getElementById('mainGame').appendChild(line6);
-                    document.getElementById('mainGame').appendChild(line5);
-                    document.getElementById('mainGame').appendChild(safe1);
-                    document.getElementById('mainGame').appendChild(line4);
-                    document.getElementById('mainGame').appendChild(line3);
-                    document.getElementById('mainGame').appendChild(line2);
-                    document.getElementById('mainGame').appendChild(line1);
-                    document.getElementById('mainGame').appendChild(begin);
-                    break;
-                case 2:
-                    this.lines(8);
-                    break;
-                case 3:
-                    this.lines(12);
-                    break;
-                case 4:
-                    this.lines(16);
-            }
+            document.getElementById('mainGame').appendChild(line16);
+            document.getElementById('mainGame').appendChild(line15);
+            document.getElementById('mainGame').appendChild(line14);
+            document.getElementById('mainGame').appendChild(line13);
+            document.getElementById('mainGame').appendChild(line12);
+            document.getElementById('mainGame').appendChild(line11);
+            document.getElementById('mainGame').appendChild(line10);
+            document.getElementById('mainGame').appendChild(line9);
+            document.getElementById('mainGame').appendChild(line8);
+            document.getElementById('mainGame').appendChild(line7);
+            document.getElementById('mainGame').appendChild(line6);
+            document.getElementById('mainGame').appendChild(line5);
+            document.getElementById('mainGame').appendChild(line4);
+            document.getElementById('mainGame').appendChild(line3);
+            document.getElementById('mainGame').appendChild(line2);
+            document.getElementById('mainGame').appendChild(line1);
         }
     }]);
 
@@ -81,10 +70,11 @@ var Game = function () {
 }();
 
 var Line = function () {
-    function Line(type) {
+    function Line(type, number) {
         _classCallCheck(this, Line);
 
         this.type = type;
+        this.number = number;
         return this.generate();
     }
 
@@ -108,6 +98,8 @@ var Line = function () {
     }, {
         key: 'templateStreet',
         value: function templateStreet() {
+            var _this = this;
+
             var streetDiv = document.createElement('div');
             var enemiesArray = ['basic', 'fast', 'slow'],
                 directionArray = ['right', 'left'],
@@ -115,9 +107,9 @@ var Line = function () {
                 randomDirection = Math.floor(Math.random() * (directionArray.length - 0)) + 0;
 
             streetDiv.setAttribute('class', 'line street');
-            new Enemy(enemiesArray[randomEnemy], directionArray[randomDirection], streetDiv);
+            new Enemy(enemiesArray[randomEnemy], directionArray[randomDirection], streetDiv, this);
             setInterval(function () {
-                new Enemy(enemiesArray[randomEnemy], directionArray[randomDirection], streetDiv);
+                new Enemy(enemiesArray[randomEnemy], directionArray[randomDirection], streetDiv, _this);
             }, 2000);
 
             return streetDiv;
@@ -125,6 +117,8 @@ var Line = function () {
     }, {
         key: 'templateRiver',
         value: function templateRiver() {
+            var _this2 = this;
+
             var riverDiv = document.createElement('div');
             var enemiesArray = ['basic', 'fast', 'slow'],
                 directionArray = ['right', 'left'],
@@ -132,9 +126,9 @@ var Line = function () {
                 randomDirection = Math.floor(Math.random() * (directionArray.length - 0)) + 0;
 
             riverDiv.setAttribute('class', 'line river');
-            new Enemy(enemiesArray[randomEnemy], directionArray[randomDirection], riverDiv);
+            new Enemy(enemiesArray[randomEnemy], directionArray[randomDirection], riverDiv, this);
             setInterval(function () {
-                new Enemy(enemiesArray[randomEnemy], directionArray[randomDirection], riverDiv);
+                new Enemy(enemiesArray[randomEnemy], directionArray[randomDirection], riverDiv, _this2);
             }, 2000);
 
             return riverDiv;
@@ -163,12 +157,16 @@ var Line = function () {
 }();
 
 var Enemy = function () {
-    function Enemy(type, direction, father) {
+    function Enemy(enemyType, enemyDirection, enemyDiv, father) {
         _classCallCheck(this, Enemy);
 
-        this.type = type;
-        this.direction = direction;
+        this.enemyType = enemyType;
+        this.enemyDirection = enemyDirection;
+        this.enemyDiv = enemyDiv;
         this.father = father;
+        this.enemyHtml = this.template();
+        this.left = 0;
+        this.right = 0;
         this.born();
     }
 
@@ -177,12 +175,12 @@ var Enemy = function () {
         value: function template() {
             var enemyImg = document.createElement('img');
 
-            if (this.father.classList[1] == 'street') {
-                enemyImg.setAttribute('src', 'img/enemy_' + this.type + '.png');
-                enemyImg.setAttribute('class', 'enemy ' + this.direction);
-            } else if (this.father.classList[1] == 'river') {
-                enemyImg.setAttribute('src', 'img/boat_' + this.type + '.png');
-                enemyImg.setAttribute('class', 'boat ' + this.direction);
+            if (this.enemyDiv.classList[1] == 'street') {
+                enemyImg.setAttribute('src', 'img/enemy_' + this.enemyType + '.png');
+                enemyImg.setAttribute('class', 'enemy ' + this.enemyDirection);
+            } else if (this.enemyDiv.classList[1] == 'river') {
+                enemyImg.setAttribute('src', 'img/boat_' + this.enemyType + '.png');
+                enemyImg.setAttribute('class', 'boat ' + this.enemyDirection);
             }
 
             return enemyImg;
@@ -190,73 +188,90 @@ var Enemy = function () {
     }, {
         key: 'born',
         value: function born() {
-            var enemyElement = this.template();
-            this.father.appendChild(enemyElement);
-            this.move(enemyElement);
+            this.enemyDiv.appendChild(this.enemyHtml);
+            this.move();
         }
     }, {
         key: 'move',
-        value: function move(element) {
-            var _this = this;
+        value: function move() {
+            var _this3 = this;
 
-            var left = 0,
-                right = 0;
+            if (this.enemyDirection === 'right') {
+                this.movement = setInterval(function () {
 
-            if (this.direction === 'right') {
-                setInterval(function () {
-
-                    if (_this.father.classList[1] == 'street') {
-                        if (_this.type === 'fast') {
-                            right += 100;
-                        } else if (_this.type === 'slow') {
-                            right += 40;
+                    if (_this3.enemyDiv.classList[1] == 'street') {
+                        if (_this3.enemyType === 'fast') {
+                            _this3.right += 30;
+                        } else if (_this3.enemyType === 'slow') {
+                            _this3.right += 7;
                         } else {
-                            right += 70;
+                            _this3.right += 15;
                         }
-                    } else if (_this.father.classList[1] == 'river') {
-                        if (_this.type === 'fast') {
-                            right += 60;
-                        } else if (_this.type === 'slow') {
-                            right += 15;
+                    } else if (_this3.enemyDiv.classList[1] == 'river') {
+                        if (_this3.enemyType === 'fast') {
+                            _this3.right += 15;
+                        } else if (_this3.enemyType === 'slow') {
+                            _this3.right += 4;
                         } else {
-                            right += 30;
+                            _this3.right += 7;
                         }
                     }
 
-                    element.style.right = right + 'px';
-
-                    if (right > window.innerWidth + 500) {
-                        element.remove();
+                    _this3.enemyHtml.style.right = _this3.right + 'px';
+                    _this3.left = _this3.right + _this3.enemyHtml.getBoundingClientRect().width;
+                    if (_this3.father.number == game.character.line) {
+                        if (_this3.left >= game.character.left && _this3.left <= game.character.right) {
+                            console.log('seio');
+                            game.character.death();
+                        }
                     }
-                }, 100);
+
+                    if (_this3.right > window.innerWidth + 500) {
+                        _this3.destroy();
+                    }
+                }, 30);
             } else {
-                setInterval(function () {
 
-                    if (_this.father.classList[1] == 'street') {
-                        if (_this.type === 'fast') {
-                            left += 100;
-                        } else if (_this.type === 'slow') {
-                            left += 40;
+                this.movement = setInterval(function () {
+
+                    if (_this3.enemyDiv.classList[1] == 'street') {
+                        if (_this3.enemyType === 'fast') {
+                            _this3.left += 30;
+                        } else if (_this3.enemyType === 'slow') {
+                            _this3.left += 7;
                         } else {
-                            left += 70;
+                            _this3.left += 15;
                         }
-                    } else if (_this.father.classList[1] == 'river') {
-                        if (_this.type === 'fast') {
-                            left += 60;
-                        } else if (_this.type === 'slow') {
-                            left += 15;
+                    } else if (_this3.enemyDiv.classList[1] == 'river') {
+                        if (_this3.enemyType === 'fast') {
+                            _this3.left += 15;
+                        } else if (_this3.enemyType === 'slow') {
+                            _this3.left += 4;
                         } else {
-                            left += 30;
+                            _this3.left += 7;
                         }
                     }
 
-                    element.style.left = left + 'px';
-
-                    if (left > window.innerWidth + 500) {
-                        element.remove();
+                    _this3.enemyHtml.style.left = _this3.left + 'px';
+                    _this3.right = _this3.left + _this3.enemyHtml.getBoundingClientRect().width;
+                    if (_this3.father.number == game.character.line) {
+                        if (_this3.right >= game.character.left && _this3.right <= game.character.right) {
+                            console.log('seio');
+                            game.character.death();
+                        }
                     }
-                }, 100);
+
+                    if (_this3.left > window.innerWidth + 500) {
+                        _this3.destroy();
+                    }
+                }, 30);
             }
+        }
+    }, {
+        key: 'destroy',
+        value: function destroy() {
+            clearInterval(this.movement);
+            this.enemyHtml.remove();
         }
     }]);
 
@@ -267,6 +282,10 @@ var Character = function () {
     function Character() {
         _classCallCheck(this, Character);
 
+        this.left = null;
+        this.right = null;
+        this.line = 1;
+        this.char = this.template();
         this.born();
     }
 
@@ -282,44 +301,55 @@ var Character = function () {
         }
     }, {
         key: 'move',
-        value: function move(char) {
-            var charBottom = 10;
-            var charPosition = char.getBoundingClientRect();
-            var charLeft = charPosition.left;
+        value: function move() {
+            var _this4 = this;
+
+            var charBottom = 10,
+                charPosition = this.char.getBoundingClientRect(),
+                charLeft = charPosition.left;
             document.onkeydown = function () {
                 if (event.keyCode == 87) {
                     if (!(window.innerHeight - 80 == charBottom || window.innerHeight - 80 <= charBottom)) {
                         charBottom += 70;
                     }
-                    char.style.bottom = charBottom + 'px';
+                    _this4.char.style.bottom = charBottom + 'px';
+                    game.character.line++;
                 } else if (event.keyCode == 83) {
                     if (!(charBottom == 10 || charBottom <= 10)) {
                         charBottom -= 70;
                     }
-                    char.style.bottom = charBottom + 'px';
+                    _this4.char.style.bottom = charBottom + 'px';
+                    game.character.line--;
                 } else if (event.keyCode == 68) {
                     if (!(window.innerWidth - 80 == charLeft || window.innerWidth - 80 <= charLeft)) {
                         charLeft += 70;
                     }
-                    char.style.left = charLeft + 'px';
+                    _this4.char.style.left = charLeft + 'px';
                 } else if (event.keyCode == 65) {
                     if (!(charLeft == 30 || charLeft <= 30)) {
                         charLeft -= 70;
                     }
-                    char.style.left = charLeft + 'px';
+                    _this4.char.style.left = charLeft + 'px';
                 }
+                _this4.left = Math.floor(_this4.char.getBoundingClientRect().left);
+                _this4.right = Math.floor(_this4.char.getBoundingClientRect().right);
             };
         }
     }, {
         key: 'born',
         value: function born() {
-            var char = this.template();
-            document.getElementById('mainGame').appendChild(char);
-            this.move(char);
+            document.getElementById('mainGame').appendChild(this.char);
+            this.move();
+        }
+    }, {
+        key: 'death',
+        value: function death() {
+            this.char.remove();
+            game.character = new Character();
         }
     }]);
 
     return Character;
 }();
 
-new Game();
+var game = new Game();
