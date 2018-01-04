@@ -138,9 +138,12 @@ var Game = function () {
     }, {
         key: 'over',
         value: function over() {
-            alert('Você perdeu, hahahahahaha');
+            this.modal = new Modal('over');
+        }
+    }, {
+        key: 'reset',
+        value: function reset() {
             document.getElementById('mainGame').innerHTML = null;
-            game = null;
             game = new Game();
         }
     }, {
@@ -264,19 +267,19 @@ var Enemy = function () {
         value: function checkSpeed() {
             if (this.father.classList[1] == 'street') {
                 if (this.type === 'fast') {
-                    return this.speed = 30;
+                    return this.speed = 9;
                 } else if (this.type === 'slow') {
-                    return this.speed = 7;
+                    return this.speed = 3;
                 } else {
-                    return this.speed = 15;
+                    return this.speed = 6;
                 }
             } else if (this.father.classList[1] == 'river') {
                 if (this.type === 'fast') {
-                    return this.speed = 15;
+                    return this.speed = 6;
                 } else if (this.type === 'slow') {
-                    return this.speed = 4;
+                    return this.speed = 2;
                 } else {
-                    return this.speed = 7;
+                    return this.speed = 4;
                 }
             }
         }
@@ -291,43 +294,33 @@ var Enemy = function () {
                     _this.right += _this.speed;
                     _this.enemyHtml.style.right = _this.right + 'px';
 
-                    _this.checkColision();
+                    _this.checkColision(_this.right);
 
-                    if (_this.right > window.innerWidth + 500) {
+                    if (_this.right > window.innerWidth + 250) {
                         _this.destroy();
                     }
-                }, 30);
+                }, 15);
             } else {
                 this.movement = setInterval(function () {
 
                     _this.left += _this.speed;
                     _this.enemyHtml.style.left = _this.left + 'px';
 
-                    _this.checkColision();
+                    _this.checkColision(_this.left);
 
-                    if (_this.left > window.innerWidth + 500) {
+                    if (_this.left > window.innerWidth + 250) {
                         _this.destroy();
                     }
-                }, 30);
+                }, 15);
             }
         }
     }, {
         key: 'checkColision',
-        value: function checkColision() {
+        value: function checkColision(valor) {
             var fatherLine = this.father.getAttribute('id').slice('4');
-            if (this.enemyDirection === 'right') {
-                this.left = this.right + this.enemyHtml.getBoundingClientRect().width;
-                if (fatherLine == game.character.line) {
-                    if (this.left >= game.character.left && this.left <= game.character.right) {
-                        game.character.death();
-                    }
-                }
-            } else {
-                this.right = this.left + this.enemyHtml.getBoundingClientRect().width;
-                if (fatherLine == game.character.line) {
-                    if (this.right >= game.character.left && this.right <= game.character.right) {
-                        game.character.death();
-                    }
+            if (fatherLine == game.character.line) {
+                if (valor >= game.character.left && valor <= game.character.right) {
+                    game.character.death();
                 }
             }
         }
@@ -421,6 +414,55 @@ var Character = function () {
     }]);
 
     return Character;
+}();
+
+var Modal = function () {
+    function Modal() {
+        var type = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : 'success';
+
+        _classCallCheck(this, Modal);
+
+        this.type = type;
+        this.html = this.template();
+    }
+
+    _createClass(Modal, [{
+        key: 'template',
+        value: function template() {
+            var divModal = document.createElement('div'),
+                close = document.createElement('a'),
+                divInner = document.createElement('div'),
+                title = document.createElement('h3'),
+                text = document.createElement('p'),
+                buttonReset = document.createElement('button');
+
+            divModal.setAttribute('class', 'modal');
+
+            close.innerHTML = 'fechar modal';
+            close.setAttribute('class', 'btn btn-close');
+
+            title.setAttribute('class', 'modal-title');
+            if (this.type === 'over') {
+                title.innerHTML = 'Você perdeu! :(';
+            } else {
+                title.innerHTML = 'Parabéns!!';
+            }
+
+            text.setAttribute('class', 'modal-text');
+            if (this.type === 'over') {
+                text.innerHTML = 'ahahahahahahahahah';
+            } else {
+                text.innerHTML = 'Você ganhou um incrível, foda-se.';
+            }
+
+            buttonReset.setAttribute('class', 'btn btn-reset');
+            buttonReset.innerHTML = 'Jogar novamente';
+
+            divInner.setAttribute('class', 'modal-content');
+        }
+    }]);
+
+    return Modal;
 }();
 
 var game = new Game();

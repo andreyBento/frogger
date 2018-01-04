@@ -71,8 +71,8 @@ class Game {
     }
     addEnemy(div, enemyType = 'basic'){
 
-        let directionArray = ['right', 'left'],
-            randomDirection = Math.floor(Math.random() * (directionArray.length - 0)) + 0;
+        const directionArray = ['right', 'left'],
+              randomDirection = Math.floor(Math.random() * (directionArray.length - 0)) + 0;
 
         div.appendChild(new Enemy(directionArray[randomDirection], div, enemyType));
         setInterval(() => {
@@ -117,9 +117,10 @@ class Game {
         }
     }
     over(){
-        alert('Você perdeu, hahahahahaha');
+        this.modal = new Modal('over');
+    }
+    reset(){
         document.getElementById('mainGame').innerHTML = null;
-        game = null;
         game = new Game();
     }
     won(){
@@ -221,19 +222,19 @@ class Enemy{
     checkSpeed(){
         if(this.father.classList[1] == 'street'){
             if(this.type === 'fast'){
-                return this.speed = 30;
+                return this.speed = 9;
             } else if(this.type === 'slow'){
-                return this.speed = 7;
+                return this.speed = 3;
             } else {
-                return this.speed = 15;
+                return this.speed = 6;
             }
         } else if(this.father.classList[1] == 'river'){
             if(this.type === 'fast'){
-                return this.speed = 15;
+                return this.speed = 6;
             } else if(this.type === 'slow'){
-                return this.speed = 4;
+                return this.speed = 2;
             } else {
-                return this.speed = 7;
+                return this.speed = 4;
             }
         }
     }
@@ -246,44 +247,35 @@ class Enemy{
                 this.right += this.speed;
                 this.enemyHtml.style.right = this.right + 'px';
 
-                this.checkColision();
+                this.checkColision(this.right);
 
-                if(this.right > window.innerWidth + 500){
+                if(this.right > window.innerWidth + 250){
                     this.destroy();
                 }
 
-            }, 30);
+            }, 15);
         } else {
             this.movement = setInterval(() => {
 
                 this.left += this.speed;
                 this.enemyHtml.style.left = this.left + 'px';
 
-                this.checkColision();
+                this.checkColision(this.left);
 
-                if(this.left > window.innerWidth + 500){
+                if(this.left > window.innerWidth + 250){
                     this.destroy();
                 }
-            }, 30);
+
+            }, 15);
         }
 
     }
 
-    checkColision(){
+    checkColision(valor){
         let fatherLine = this.father.getAttribute('id').slice('4');
-        if(this.enemyDirection === 'right'){
-            this.left = this.right + this.enemyHtml.getBoundingClientRect().width;
-            if(fatherLine == game.character.line){
-                if(this.left >= game.character.left && this.left <= game.character.right){
-                    game.character.death();
-                }
-            }
-        } else {
-            this.right = this.left + this.enemyHtml.getBoundingClientRect().width;
-            if(fatherLine == game.character.line){
-                if(this.right >= game.character.left && this.right <= game.character.right){
-                    game.character.death();
-                }
+        if(fatherLine == game.character.line){
+            if(valor >= game.character.left && valor <= game.character.right){
+                game.character.death();
             }
         }
     }
@@ -363,5 +355,60 @@ class Character {
     }
 }
 
+class Modal{
+    constructor(type = 'success'){
+        this.type = type;
+        this.html = this.template();
+        this.born();
+    }
+
+    template(){
+        const divModal = document.createElement('div'),
+              close = document.createElement('a'),
+              divInner = document.createElement('div'),
+              title = document.createElement('h3'),
+              text = document.createElement('p'),
+              buttonReset = document.createElement('button');
+
+        divModal.setAttribute('class', 'modal');
+
+        close.innerHTML = 'fechar modal';
+        close.setAttribute('class', 'btn btn-close');
+
+        title.setAttribute('class', 'modal-title');
+        if(this.type === 'over'){
+            title.innerHTML = 'Você perdeu! :(';
+        } else{
+            title.innerHTML = 'Parabéns!!';
+        }
+
+        text.setAttribute('class', 'modal-text');
+        if(this.type === 'over'){
+            text.innerHTML = 'ahahahahahahahahah';
+        } else{
+            text.innerHTML = 'Você ganhou um incrível, foda-se.';
+        }
+
+        buttonReset.setAttribute('class', 'btn btn-reset');
+        buttonReset.innerHTML = 'Jogar novamente';
+
+        divInner.setAttribute('class', 'modal-content');
+
+        divInner.appendChild(title);
+        divInner.appendChild(text);
+        divInner.appendChild(buttonReset);
+
+        divModal.appendChild(close);
+        divModal.appendChild(divInner);
+
+        return divModal;
+    }
+
+    born(){
+        document.getElementById('mainGame').appendChild(this.overlay);
+        document.getElementById('mainGame').appendChild(this.html);
+    }
+
+}
 
 let game = new Game();
