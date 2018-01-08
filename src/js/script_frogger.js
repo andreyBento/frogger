@@ -149,7 +149,7 @@ var Game = function () {
     }, {
         key: 'won',
         value: function won() {
-            alert('Você ganhou, eeeeeeeeh');
+            this.modal = new Modal();
         }
     }]);
 
@@ -294,7 +294,7 @@ var Enemy = function () {
                     _this.right += _this.speed;
                     _this.enemyHtml.style.right = _this.right + 'px';
 
-                    _this.checkColision(_this.right);
+                    _this.checkColision(_this.right + _this.enemyHtml.getBoundingClientRect().width - 40);
 
                     if (_this.right > window.innerWidth + 250) {
                         _this.destroy();
@@ -306,7 +306,7 @@ var Enemy = function () {
                     _this.left += _this.speed;
                     _this.enemyHtml.style.left = _this.left + 'px';
 
-                    _this.checkColision(_this.left);
+                    _this.checkColision(_this.left + _this.enemyHtml.getBoundingClientRect().width);
 
                     if (_this.left > window.innerWidth + 250) {
                         _this.destroy();
@@ -366,9 +366,10 @@ var Character = function () {
             var charBottom = 10,
                 charPosition = this.char.getBoundingClientRect(),
                 charLeft = charPosition.left;
+
             document.onkeydown = function () {
                 if (event.keyCode == 87) {
-                    if (!(window.innerHeight - 80 == charBottom || window.innerHeight - 80 <= charBottom)) {
+                    if (!(document.getElementById('mainGame').getBoundingClientRect().height - 80 == charBottom || document.getElementById('mainGame').getBoundingClientRect().height - 80 <= charBottom)) {
                         charBottom += 70;
                     }
                     _this2.char.style.bottom = charBottom + 'px';
@@ -424,6 +425,7 @@ var Modal = function () {
 
         this.type = type;
         this.html = this.template();
+        this.born();
     }
 
     _createClass(Modal, [{
@@ -456,9 +458,45 @@ var Modal = function () {
             }
 
             buttonReset.setAttribute('class', 'btn btn-reset');
+            buttonReset.setAttribute('id', 'btnReset');
             buttonReset.innerHTML = 'Jogar novamente';
 
             divInner.setAttribute('class', 'modal-content');
+
+            divInner.appendChild(title);
+            divInner.appendChild(text);
+            divInner.appendChild(buttonReset);
+
+            divModal.appendChild(close);
+            divModal.appendChild(divInner);
+
+            return divModal;
+        }
+    }, {
+        key: 'overlay',
+        value: function overlay() {
+            var overlayDiv = document.createElement('div');
+
+            overlayDiv.setAttribute('class', 'overlay');
+            overlayDiv.setAttribute('id', 'overlay');
+
+            return overlayDiv;
+        }
+    }, {
+        key: 'born',
+        value: function born() {
+            document.getElementById('mainGame').appendChild(this.overlay());
+            document.getElementById('mainGame').appendChild(this.html);
+            this.btnReset();
+        }
+    }, {
+        key: 'btnReset',
+        value: function btnReset() {
+            var button = document.getElementById('btnReset');
+
+            button.addEventListener('click', function () {
+                game.reset();
+            });
         }
     }]);
 

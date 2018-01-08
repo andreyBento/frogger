@@ -124,7 +124,7 @@ class Game {
         game = new Game();
     }
     won(){
-        alert('Você ganhou, eeeeeeeeh');
+        this.modal = new Modal();
     }
 }
 
@@ -247,7 +247,7 @@ class Enemy{
                 this.right += this.speed;
                 this.enemyHtml.style.right = this.right + 'px';
 
-                this.checkColision(this.right);
+                this.checkColision(this.right + this.enemyHtml.getBoundingClientRect().width - 40);
 
                 if(this.right > window.innerWidth + 250){
                     this.destroy();
@@ -260,7 +260,7 @@ class Enemy{
                 this.left += this.speed;
                 this.enemyHtml.style.left = this.left + 'px';
 
-                this.checkColision(this.left);
+                this.checkColision(this.left + this.enemyHtml.getBoundingClientRect().width);
 
                 if(this.left > window.innerWidth + 250){
                     this.destroy();
@@ -310,9 +310,10 @@ class Character {
         let charBottom = 10,
             charPosition = this.char.getBoundingClientRect(),
             charLeft = charPosition.left;
+
         document.onkeydown = () => {
             if(event.keyCode == 87){
-                if(!((window.innerHeight - 80) == charBottom || (window.innerHeight - 80) <= charBottom)){
+                if(!((document.getElementById('mainGame').getBoundingClientRect().height - 80) == charBottom || (document.getElementById('mainGame').getBoundingClientRect().height - 80) <= charBottom)){
                     charBottom += 70;
                 }
                 this.char.style.bottom = charBottom + 'px';
@@ -390,6 +391,7 @@ class Modal{
         }
 
         buttonReset.setAttribute('class', 'btn btn-reset');
+        buttonReset.setAttribute('id', 'btnReset');
         buttonReset.innerHTML = 'Jogar novamente';
 
         divInner.setAttribute('class', 'modal-content');
@@ -404,9 +406,27 @@ class Modal{
         return divModal;
     }
 
+    overlay(){
+        const overlayDiv = document.createElement('div');
+
+        overlayDiv.setAttribute('class', 'overlay');
+        overlayDiv.setAttribute('id', 'overlay');
+
+        return overlayDiv;
+    }
+
     born(){
-        document.getElementById('mainGame').appendChild(this.overlay);
+        document.getElementById('mainGame').appendChild(this.overlay());
         document.getElementById('mainGame').appendChild(this.html);
+        this.btnReset();
+    }
+
+    btnReset(){
+        let button = document.getElementById('btnReset');
+
+        button.addEventListener('click', function(){
+            game.reset();
+        });
     }
 
 }
