@@ -247,8 +247,8 @@ class Enemy{
                 this.right += this.speed;
                 this.enemyHtml.style.right = this.right + 'px';
 
-                let teste = this.style.right,
-                    teste2 = this.style.right + this.enemyHtml.getBoundingClientRect().width
+                let teste = this.enemyHtml.style.right,
+                    teste2 = this.enemyHtml.style.right + this.enemyHtml.getBoundingClientRect().width
 
                 this.checkColision(teste, teste2);
 
@@ -263,8 +263,8 @@ class Enemy{
                 this.left += this.speed;
                 this.enemyHtml.style.left = this.left + 'px';
 
-                let teste = this.style.left,
-                    teste2 = this.style.left + this.enemyHtml.getBoundingClientRect().width
+                let teste = this.enemyHtml.style.left,
+                    teste2 = this.enemyHtml.style.left + this.enemyHtml.getBoundingClientRect().width
 
                 this.checkColision(teste, teste2);
 
@@ -280,10 +280,14 @@ class Enemy{
     checkColision(valor1, valor2){
         let fatherLine = this.father.getAttribute('id').slice('4');
 
-        let c1 = game.character.style.left,
-            c2 = game.character.style.right;
+        let c1 = game.character.char.style.left,
+            c2 = game.character.char.style.right;
 
         if(fatherLine == game.character.line){
+            console.log(valor1)
+            console.log(valor2)
+            console.log(c1)
+            console.log(c2)
             if( valor2 >= c1 && valor2 <= c2 ){
                 game.character.death();
             }

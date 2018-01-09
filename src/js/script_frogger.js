@@ -294,7 +294,10 @@ var Enemy = function () {
                     _this.right += _this.speed;
                     _this.enemyHtml.style.right = _this.right + 'px';
 
-                    _this.checkColision(_this.right + _this.enemyHtml.getBoundingClientRect().width - 40);
+                    var teste = _this.enemyHtml.style.right,
+                        teste2 = _this.enemyHtml.style.right + _this.enemyHtml.getBoundingClientRect().width;
+
+                    _this.checkColision(teste, teste2);
 
                     if (_this.right > window.innerWidth + 250) {
                         _this.destroy();
@@ -306,7 +309,10 @@ var Enemy = function () {
                     _this.left += _this.speed;
                     _this.enemyHtml.style.left = _this.left + 'px';
 
-                    _this.checkColision(_this.left + _this.enemyHtml.getBoundingClientRect().width);
+                    var teste = _this.enemyHtml.style.left,
+                        teste2 = _this.enemyHtml.style.left + _this.enemyHtml.getBoundingClientRect().width;
+
+                    _this.checkColision(teste, teste2);
 
                     if (_this.left > window.innerWidth + 250) {
                         _this.destroy();
@@ -316,10 +322,27 @@ var Enemy = function () {
         }
     }, {
         key: 'checkColision',
-        value: function checkColision(valor) {
+        value: function checkColision(valor1, valor2) {
             var fatherLine = this.father.getAttribute('id').slice('4');
+
+            var c1 = game.character.char.style.left,
+                c2 = game.character.char.style.right;
+
             if (fatherLine == game.character.line) {
-                if (valor >= game.character.left && valor <= game.character.right) {
+                console.log(valor1);
+                console.log(valor2);
+                console.log(c1);
+                console.log(c2);
+                if (valor2 >= c1 && valor2 <= c2) {
+                    game.character.death();
+                }
+                if (valor2 >= c2 && valor2 <= c1) {
+                    game.character.death();
+                }
+                if (valor1 >= c2 && valor2 <= c1) {
+                    game.character.death();
+                }
+                if (valor1 >= c1 && valor2 <= c2) {
                     game.character.death();
                 }
             }
