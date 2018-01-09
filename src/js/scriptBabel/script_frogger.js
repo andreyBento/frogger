@@ -247,7 +247,10 @@ class Enemy{
                 this.right += this.speed;
                 this.enemyHtml.style.right = this.right + 'px';
 
-                this.checkColision(this.right + this.enemyHtml.getBoundingClientRect().width - 40);
+                let teste = this.style.right,
+                    teste2 = this.style.right + this.enemyHtml.getBoundingClientRect().width
+
+                this.checkColision(teste, teste2);
 
                 if(this.right > window.innerWidth + 250){
                     this.destroy();
@@ -260,7 +263,10 @@ class Enemy{
                 this.left += this.speed;
                 this.enemyHtml.style.left = this.left + 'px';
 
-                this.checkColision(this.left + this.enemyHtml.getBoundingClientRect().width);
+                let teste = this.style.left,
+                    teste2 = this.style.left + this.enemyHtml.getBoundingClientRect().width
+
+                this.checkColision(teste, teste2);
 
                 if(this.left > window.innerWidth + 250){
                     this.destroy();
@@ -271,10 +277,23 @@ class Enemy{
 
     }
 
-    checkColision(valor){
+    checkColision(valor1, valor2){
         let fatherLine = this.father.getAttribute('id').slice('4');
+
+        let c1 = game.character.style.left,
+            c2 = game.character.style.right;
+
         if(fatherLine == game.character.line){
-            if(valor >= game.character.left && valor <= game.character.right){
+            if( valor2 >= c1 && valor2 <= c2 ){
+                game.character.death();
+            }
+            if( valor2 >= c2 && valor2 <= c1 ){
+                game.character.death();
+            }
+            if( valor1 >= c2 && valor2 <= c1 ){
+                game.character.death();
+            }
+            if( valor1 >= c1 && valor2 <= c2 ){
                 game.character.death();
             }
         }
