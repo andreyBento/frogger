@@ -294,10 +294,7 @@ var Enemy = function () {
                     _this.right += _this.speed;
                     _this.enemyHtml.style.right = _this.right + 'px';
 
-                    var teste = _this.enemyHtml.style.right,
-                        teste2 = _this.enemyHtml.style.right + _this.enemyHtml.getBoundingClientRect().width;
-
-                    _this.checkColision(teste, teste2);
+                    _this.checkColision();
 
                     if (_this.right > window.innerWidth + 250) {
                         _this.destroy();
@@ -309,10 +306,7 @@ var Enemy = function () {
                     _this.left += _this.speed;
                     _this.enemyHtml.style.left = _this.left + 'px';
 
-                    var teste = _this.enemyHtml.style.left,
-                        teste2 = _this.enemyHtml.style.left + _this.enemyHtml.getBoundingClientRect().width;
-
-                    _this.checkColision(teste, teste2);
+                    _this.checkColision();
 
                     if (_this.left > window.innerWidth + 250) {
                         _this.destroy();
@@ -322,27 +316,15 @@ var Enemy = function () {
         }
     }, {
         key: 'checkColision',
-        value: function checkColision(valor1, valor2) {
-            var fatherLine = this.father.getAttribute('id').slice('4');
-
-            var c1 = game.character.char.style.left,
-                c2 = game.character.char.style.right;
+        value: function checkColision() {
+            var fatherLine = this.father.getAttribute('id').slice('4'),
+                characterEsquerda = document.getElementById('char').getBoundingClientRect().left,
+                characterDireita = document.getElementById('char').getBoundingClientRect().right,
+                inimigoEsquerda = this.enemyHtml.getBoundingClientRect().left,
+                inimigoDireita = this.enemyHtml.getBoundingClientRect().right;
 
             if (fatherLine == game.character.line) {
-                console.log(valor1);
-                console.log(valor2);
-                console.log(c1);
-                console.log(c2);
-                if (valor2 >= c1 && valor2 <= c2) {
-                    game.character.death();
-                }
-                if (valor2 >= c2 && valor2 <= c1) {
-                    game.character.death();
-                }
-                if (valor1 >= c2 && valor2 <= c1) {
-                    game.character.death();
-                }
-                if (valor1 >= c1 && valor2 <= c2) {
+                if (inimigoDireita >= characterEsquerda && inimigoDireita <= characterDireita || inimigoDireita >= characterDireita && inimigoDireita <= characterEsquerda || inimigoEsquerda >= characterDireita && inimigoEsquerda <= characterEsquerda || inimigoEsquerda >= characterEsquerda && inimigoEsquerda <= characterDireita) {
                     game.character.death();
                 }
             }
@@ -455,16 +437,13 @@ var Modal = function () {
         key: 'template',
         value: function template() {
             var divModal = document.createElement('div'),
-                close = document.createElement('a'),
                 divInner = document.createElement('div'),
                 title = document.createElement('h3'),
                 text = document.createElement('p'),
                 buttonReset = document.createElement('button');
 
             divModal.setAttribute('class', 'modal');
-
-            close.innerHTML = 'fechar modal';
-            close.setAttribute('class', 'btn btn-close');
+            divModal.setAttribute('id', 'modal');
 
             title.setAttribute('class', 'modal-title');
             if (this.type === 'over') {
@@ -475,9 +454,9 @@ var Modal = function () {
 
             text.setAttribute('class', 'modal-text');
             if (this.type === 'over') {
-                text.innerHTML = 'ahahahahahahahahah';
+                text.innerHTML = 'E lá vamos nós...';
             } else {
-                text.innerHTML = 'Você ganhou um incrível, foda-se.';
+                text.innerHTML = 'Você conseguiu, uhul!!';
             }
 
             buttonReset.setAttribute('class', 'btn btn-reset');
@@ -490,7 +469,6 @@ var Modal = function () {
             divInner.appendChild(text);
             divInner.appendChild(buttonReset);
 
-            divModal.appendChild(close);
             divModal.appendChild(divInner);
 
             return divModal;
@@ -520,6 +498,12 @@ var Modal = function () {
             button.addEventListener('click', function () {
                 game.reset();
             });
+        }
+    }, {
+        key: 'destroy',
+        value: function destroy() {
+            document.getElementById('overlay').remove();
+            document.getElementById('modal').remove();
         }
     }]);
 

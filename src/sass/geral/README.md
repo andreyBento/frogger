@@ -7,6 +7,5 @@ Aqui estão as configuracoes gerais do projeto
 Esta pasta de componentes faz ligação com o projeto 'semnome'
 [Readme do Jogo](../../../README.md)
 
-1. [Readme de estilos gerais](../geral/README.md)
-2. [Readme de estilos de configurações](../config/README.md)
+1. [Readme de estilos componentes](../componentes/README.md)
 2. [Readme de plugins de sass](../../sassLibs/README.md)

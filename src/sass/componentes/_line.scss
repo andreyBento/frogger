@@ -1,0 +1,23 @@
+/* ==========================================================================
+   Lines
+   ========================================================================== */
+
+.line{
+    position: relative;
+    overflow: hidden;
+    height: 70px;
+  
+    &.street{
+      background: url('../img/street_background.jpg') no-repeat center;
+      background-size: cover;
+    }
+    &.sidewalk{
+      background-color: #eeeeee;
+    }
+    &.river{
+      background-color: #7ED7E5;
+    }
+    &.grass{
+      background-color: #ACC754;
+    }
+}

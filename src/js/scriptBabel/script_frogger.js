@@ -247,10 +247,7 @@ class Enemy{
                 this.right += this.speed;
                 this.enemyHtml.style.right = this.right + 'px';
 
-                let teste = this.enemyHtml.style.right,
-                    teste2 = this.enemyHtml.style.right + this.enemyHtml.getBoundingClientRect().width
-
-                this.checkColision(teste, teste2);
+                this.checkColision();
 
                 if(this.right > window.innerWidth + 250){
                     this.destroy();
@@ -263,10 +260,7 @@ class Enemy{
                 this.left += this.speed;
                 this.enemyHtml.style.left = this.left + 'px';
 
-                let teste = this.enemyHtml.style.left,
-                    teste2 = this.enemyHtml.style.left + this.enemyHtml.getBoundingClientRect().width
-
-                this.checkColision(teste, teste2);
+                this.checkColision();
 
                 if(this.left > window.innerWidth + 250){
                     this.destroy();
@@ -277,27 +271,15 @@ class Enemy{
 
     }
 
-    checkColision(valor1, valor2){
-        let fatherLine = this.father.getAttribute('id').slice('4');
-
-        let c1 = game.character.char.style.left,
-            c2 = game.character.char.style.right;
+    checkColision(){
+        const fatherLine = this.father.getAttribute('id').slice('4'),
+              characterEsquerda = document.getElementById('char').getBoundingClientRect().left,
+              characterDireita = document.getElementById('char').getBoundingClientRect().right,
+              inimigoEsquerda = this.enemyHtml.getBoundingClientRect().left,
+              inimigoDireita = this.enemyHtml.getBoundingClientRect().right;
 
         if(fatherLine == game.character.line){
-            console.log(valor1)
-            console.log(valor2)
-            console.log(c1)
-            console.log(c2)
-            if( valor2 >= c1 && valor2 <= c2 ){
-                game.character.death();
-            }
-            if( valor2 >= c2 && valor2 <= c1 ){
-                game.character.death();
-            }
-            if( valor1 >= c2 && valor2 <= c1 ){
-                game.character.death();
-            }
-            if( valor1 >= c1 && valor2 <= c2 ){
+            if( inimigoDireita >= characterEsquerda && inimigoDireita <= characterDireita || inimigoDireita >= characterDireita && inimigoDireita <= characterEsquerda || inimigoEsquerda >= characterDireita && inimigoEsquerda <= characterEsquerda || inimigoEsquerda >= characterEsquerda && inimigoEsquerda <= characterDireita ){
                 game.character.death();
             }
         }
@@ -388,16 +370,13 @@ class Modal{
 
     template(){
         const divModal = document.createElement('div'),
-              close = document.createElement('a'),
               divInner = document.createElement('div'),
               title = document.createElement('h3'),
               text = document.createElement('p'),
               buttonReset = document.createElement('button');
 
         divModal.setAttribute('class', 'modal');
-
-        close.innerHTML = 'fechar modal';
-        close.setAttribute('class', 'btn btn-close');
+        divModal.setAttribute('id', 'modal');
 
         title.setAttribute('class', 'modal-title');
         if(this.type === 'over'){
@@ -408,9 +387,9 @@ class Modal{
 
         text.setAttribute('class', 'modal-text');
         if(this.type === 'over'){
-            text.innerHTML = 'ahahahahahahahahah';
+            text.innerHTML = 'E lá vamos nós...';
         } else{
-            text.innerHTML = 'Você ganhou um incrível, foda-se.';
+            text.innerHTML = 'Você conseguiu, uhul!!';
         }
 
         buttonReset.setAttribute('class', 'btn btn-reset');
@@ -423,7 +402,6 @@ class Modal{
         divInner.appendChild(text);
         divInner.appendChild(buttonReset);
 
-        divModal.appendChild(close);
         divModal.appendChild(divInner);
 
         return divModal;
@@ -452,6 +430,10 @@ class Modal{
         });
     }
 
+    destroy(){
+        document.getElementById('overlay').remove();
+        document.getElementById('modal').remove();
+    }
 }
 
 let game = new Game();

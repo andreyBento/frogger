@@ -8,9 +8,6 @@
 // Libs
 @import "../sassLibs/open-iconic-bootstrap";
 
-// Config
-@import "../sass/config/_variaveis";
-
 // Tipografia
 @import "../sass/_tipografia";
 
@@ -21,3 +18,6 @@
 
 // Componentes
 @import "../sass/componentes/_btns";
+@import "../sass/componentes/_lifes";
+@import "../sass/componentes/_line";
+@import "../sass/componentes/_modais";

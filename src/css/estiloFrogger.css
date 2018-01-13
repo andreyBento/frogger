@@ -1269,34 +1269,6 @@ body {
 }
 
 /* line 16, src/sass/geral/_geral.scss */
-.line {
-  position: relative;
-  overflow: hidden;
-  height: 70px;
-}
-
-/* line 21, src/sass/geral/_geral.scss */
-.line.street {
-  background: url("../img/street_background.jpg") no-repeat center;
-  background-size: cover;
-}
-
-/* line 25, src/sass/geral/_geral.scss */
-.line.sidewalk {
-  background-color: #eeeeee;
-}
-
-/* line 28, src/sass/geral/_geral.scss */
-.line.river {
-  background-color: #7ED7E5;
-}
-
-/* line 31, src/sass/geral/_geral.scss */
-.line.grass {
-  background-color: #ACC754;
-}
-
-/* line 36, src/sass/geral/_geral.scss */
 .enemy,
 .boat {
   position: absolute;
@@ -1304,30 +1276,30 @@ body {
   transform: translateY(-50%);
 }
 
-/* line 42, src/sass/geral/_geral.scss */
+/* line 21, src/sass/geral/_geral.scss */
 .enemy.right,
 .boat.right {
   right: -150px;
   transform: scaleX(-1) translateY(-50%);
 }
 
-/* line 46, src/sass/geral/_geral.scss */
+/* line 25, src/sass/geral/_geral.scss */
 .enemy.left,
 .boat.left {
   left: -150px;
 }
 
-/* line 52, src/sass/geral/_geral.scss */
+/* line 31, src/sass/geral/_geral.scss */
 .boat.right {
   right: -250px;
 }
 
-/* line 55, src/sass/geral/_geral.scss */
+/* line 34, src/sass/geral/_geral.scss */
 .boat.left {
   left: -250px;
 }
 
-/* line 60, src/sass/geral/_geral.scss */
+/* line 39, src/sass/geral/_geral.scss */
 .char {
   position: absolute;
   bottom: 10px;
@@ -1339,7 +1311,39 @@ body {
   border-radius: 50%;
 }
 
-/* line 71, src/sass/geral/_geral.scss */
+/* ==========================================================================
+   Botoes
+   ========================================================================== */
+/* line 5, src/sass/componentes/_btns.scss */
+.btn-close {
+  display: block;
+  background-color: #fff;
+  border: 1px solid crimson;
+  position: absolute;
+  border-radius: 10px;
+  top: -17px;
+  right: -50px;
+  font-size: 12px;
+  padding: 5px 15px;
+  color: crimson;
+  cursor: pointer;
+}
+
+/* line 19, src/sass/componentes/_btns.scss */
+.btn-reset {
+  padding: 5px 15px;
+  color: #fff;
+  background-color: crimson;
+  border: none;
+  border-radius: 10px;
+  box-shadow: none;
+  cursor: pointer;
+}
+
+/* ==========================================================================
+   Lifes
+   ========================================================================== */
+/* line 5, src/sass/componentes/_lifes.scss */
 .lifes {
   position: fixed;
   top: 0;
@@ -1351,7 +1355,7 @@ body {
   border-radius: 0 0 10px 10px;
 }
 
-/* line 80, src/sass/geral/_geral.scss */
+/* line 14, src/sass/componentes/_lifes.scss */
 .lifes .heart {
   width: 30px;
   height: 30px;
@@ -1360,22 +1364,56 @@ body {
   border-radius: 50%;
 }
 
-/* line 86, src/sass/geral/_geral.scss */
+/* line 20, src/sass/componentes/_lifes.scss */
 .lifes .heart:last-of-type {
   margin-right: 0;
 }
 
-/* line 87, src/sass/geral/_geral.scss */
+/* line 21, src/sass/componentes/_lifes.scss */
 .lifes .heart.active {
   background-color: lightcoral;
 }
 
-/* line 88, src/sass/geral/_geral.scss */
+/* line 22, src/sass/componentes/_lifes.scss */
 .lifes .heart.lost {
   background-color: lightgrey;
 }
 
-/* line 92, src/sass/geral/_geral.scss */
+/* ==========================================================================
+   Lines
+   ========================================================================== */
+/* line 5, src/sass/componentes/_line.scss */
+.line {
+  position: relative;
+  overflow: hidden;
+  height: 70px;
+}
+
+/* line 10, src/sass/componentes/_line.scss */
+.line.street {
+  background: url("../img/street_background.jpg") no-repeat center;
+  background-size: cover;
+}
+
+/* line 14, src/sass/componentes/_line.scss */
+.line.sidewalk {
+  background-color: #eeeeee;
+}
+
+/* line 17, src/sass/componentes/_line.scss */
+.line.river {
+  background-color: #7ED7E5;
+}
+
+/* line 20, src/sass/componentes/_line.scss */
+.line.grass {
+  background-color: #ACC754;
+}
+
+/* ==========================================================================
+   Modais
+   ========================================================================== */
+/* line 5, src/sass/componentes/_modais.scss */
 .overlay {
   position: fixed;
   top: 0;
@@ -1386,7 +1424,7 @@ body {
   background-color: rgba(0, 0, 0, 0.7);
 }
 
-/* line 102, src/sass/geral/_geral.scss */
+/* line 15, src/sass/componentes/_modais.scss */
 .modal {
   position: fixed;
   top: 50%;
@@ -1401,22 +1439,7 @@ body {
   transform: translate(-50%);
 }
 
-/* line 114, src/sass/geral/_geral.scss */
-.modal .btn-close {
-  display: block;
-  background-color: #fff;
-  border: 1px solid crimson;
-  position: absolute;
-  border-radius: 10px;
-  top: -17px;
-  right: -50px;
-  font-size: 12px;
-  padding: 5px 15px;
-  color: lightgrey;
-  cursor: pointer;
-}
-
-/* line 127, src/sass/geral/_geral.scss */
+/* line 27, src/sass/componentes/_modais.scss */
 .modal h3 {
   margin-top: 0;
   margin-bottom: 5px;
@@ -1424,27 +1447,12 @@ body {
   color: #333;
 }
 
-/* line 133, src/sass/geral/_geral.scss */
+/* line 33, src/sass/componentes/_modais.scss */
 .modal p {
   margin-top: 0;
   margin-bottom: 20px;
   font-size: 14px;
   color: #666;
 }
-
-/* line 139, src/sass/geral/_geral.scss */
-.modal .btn-reset {
-  padding: 5px 15px;
-  color: #fff;
-  background-color: crimson;
-  border: none;
-  border-radius: 10px;
-  box-shadow: none;
-  cursor: pointer;
-}
-
-/* ==========================================================================
-   Botoes
-   ========================================================================== */
 
 /*# sourceMappingURL=estiloFrogger.css.map */
